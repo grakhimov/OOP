@@ -14,3 +14,7 @@ meta-inf/
 /target
 /Metodichka_po_kursovoy_rabote
 /Метод указания лаб - последняя редакция.pdf
+*.html
+*.css
+*.js
+package-list
