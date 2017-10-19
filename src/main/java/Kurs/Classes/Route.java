@@ -6,4 +6,5 @@ public class Route {
     private int id;
     private Timestamp startTime;
     private Timestamp endTime;
+
 }
