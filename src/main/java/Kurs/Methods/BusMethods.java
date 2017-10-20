@@ -17,7 +17,7 @@ public class BusMethods {
         return busPark;
     }
 
-    public String generateBusNumber() {
+    private String generateBusNumber() {
         char a = possibleLetters.charAt(new Random().nextInt(possibleLetters.length()));
         int b = new Random().nextInt(10);
         int c = new Random().nextInt(10);
@@ -25,5 +25,22 @@ public class BusMethods {
         char e = possibleLetters.charAt(new Random().nextInt(possibleLetters.length()));
         char f = possibleLetters.charAt(new Random().nextInt(possibleLetters.length()));
         return String.valueOf(a).concat(String.valueOf(b)).concat(String.valueOf(c)).concat(String.valueOf(d)).concat(String.valueOf(e)).concat(String.valueOf(f));
+    }
+
+    public void deleteBusFromPark(ArrayList<Bus> buses, int busId) {
+        buses.remove(busId);
+    }
+
+    public void addBusToPark(ArrayList<Bus> buses, Bus bus) {
+        buses.add(bus);
+    }
+
+    public void updateBusNumber(ArrayList<Bus> buses, int busId, String newBusNumber) {
+        buses.get(busId).setBusNumber(newBusNumber);
+    }
+
+    public void addBusVoilations(ArrayList<Bus> buses, int busId, String violation) {
+        HashMap<Integer, String> currentBusViolations = buses.get(busId).getBusViolations();
+        currentBusViolations.put(currentBusViolations.size() + 1, violation);
     }
 }

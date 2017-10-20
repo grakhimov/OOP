@@ -14,7 +14,17 @@ public class Bus {
         this.busViolations = busViolations;
     }
 
+    public void setBusViolations(HashMap<Integer, String> busViolations) {
+        this.busViolations = busViolations;
+    }
+
+    public void setBusNumber(String busNumber) {
+
+        this.busNumber = busNumber;
+    }
+
     public int getBusId() {
+
         return busId;
     }
 
