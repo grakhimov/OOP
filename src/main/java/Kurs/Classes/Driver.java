@@ -7,10 +7,10 @@ public class Driver {
     private String driverName;
     private String driverSurname;
     private int experiense;
-    private Enum driverClass;
+    private String driverClass;
     private HashMap<Integer, String> driverViolations;
 
-    public Driver(int driverId, String driverName, String driverSurname, int experiense, Enum driverClass, HashMap<Integer, String> driverViolations) {
+    public Driver(int driverId, String driverName, String driverSurname, int experiense, String driverClass, HashMap<Integer, String> driverViolations) {
         this.driverId = driverId;
         this.driverName = driverName;
 
@@ -36,7 +36,7 @@ public class Driver {
         return experiense;
     }
 
-    public Enum getDriverClass() {
+    public String getDriverClass() {
         return driverClass;
     }
 

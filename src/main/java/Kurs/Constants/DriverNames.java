@@ -1,4 +1,4 @@
-package Kurs.Classes;
+package Kurs.Constants;
 
 public enum DriverNames {
     ALEXANDER("Alexander"),
