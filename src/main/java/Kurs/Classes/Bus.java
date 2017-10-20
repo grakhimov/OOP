@@ -4,5 +4,25 @@ import java.util.HashMap;
 
 public class Bus {
     private int busId;
+    private String busNumber;
     private HashMap<Integer, String> busViolations;
+
+    public Bus(int busId, String busNumber, HashMap<Integer, String> busViolations) {
+
+        this.busId = busId;
+        this.busNumber = busNumber;
+        this.busViolations = busViolations;
+    }
+
+    public int getBusId() {
+        return busId;
+    }
+
+    public String getBusNumber() {
+        return busNumber;
+    }
+
+    public HashMap<Integer, String> getBusViolations() {
+        return busViolations;
+    }
 }
