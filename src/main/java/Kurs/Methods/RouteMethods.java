@@ -21,7 +21,7 @@ public class RouteMethods {
 
     public ArrayList<Route> generateRoutes(int numberOfRoutes) {
         ArrayList<Route> routes = new ArrayList<Route>();
-        for (int i = 0; i < numberOfRoutes; i++) {
+        for (int i = 1; i < numberOfRoutes + 1; i++) {
             routes.add(new Route(i, generateStartTime(), generateEndTime()));
         }
         return routes;
