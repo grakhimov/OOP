@@ -1,12 +1,9 @@
 package Kurs.Methods;
 
-import Kurs.Classes.Driver;
 import Kurs.Constants.DriverClasses;
 import Kurs.Constants.DriverNames;
 import Kurs.Constants.DriverSurnames;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 
 import static Kurs.Constants.DriverExperience.MAX_DRIVER_EXPERIENCE;
@@ -14,11 +11,22 @@ import static Kurs.Constants.DriverExperience.MIN_DRIVER_EXPERIENCE;
 
 public class DriverMethods {
 
-    public ArrayList<Driver> generateDriversPark(int numberOfDrivers) {
+    /*public ArrayList<Driver> generateDriversPark(int numberOfDrivers) {
         ArrayList<Driver> drivers = new ArrayList<Driver>();
         for (int i = 0; i < numberOfDrivers; i++) {
             Driver driver = new Driver(i, generateDriverName(), generateDriverSurname(), generateDriverExperience(), generateDriverClass(), new HashMap<Integer, String>());
             drivers.add(driver);
+        }
+        return drivers;
+    }*/
+
+    public String[] generateDriver(){
+        return new String[]{generateDriverName(), generateDriverSurname(), generateDriverClass(), String.valueOf(generateDriverExperience())};
+    }
+    public String [][] generateDriversPark(int numberOfDrivers){
+        String[][] drivers = new String[numberOfDrivers][];
+        for (int i = 0; i < numberOfDrivers; i++) {
+            drivers[i] = generateDriver();
         }
         return drivers;
     }

@@ -32,7 +32,7 @@ public class CurrentDayMethods {
         return new CurrentDay(date, availableDrivers, routes, availableBuses);
     }
 
-    public ArrayList<BusWithDriverOnRoute> busWithDriverOnRoute(CurrentDay currentDay) {
+    /*public ArrayList<BusWithDriverOnRoute> busWithDriverOnRoute(CurrentDay currentDay) {
         for (int i = 0; i < currentDay.getTodayDrivers().size(); i++) {
             for (int j = 0; j < currentDay.getTodayBuses().size(); j++) {
                 for (int k = 0; k < currentDay.getTodayRoutes().size(); k++) {
@@ -44,5 +44,5 @@ public class CurrentDayMethods {
         Bus bus = currentDay.getTodayBuses().get(new Random().nextInt(currentDay.getTodayBuses().size()));
         Route route = currentDay.getTodayRoutes().get(new Random().nextInt(currentDay.getTodayRoutes().size()));
         return new ArrayList<BusWithDriverOnRoute>(driver, bus, route);
-    }
+    }*/
 }
