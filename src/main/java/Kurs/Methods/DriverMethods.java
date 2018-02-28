@@ -11,15 +11,6 @@ import static Kurs.Constants.DriverExperience.MIN_DRIVER_EXPERIENCE;
 
 public class DriverMethods {
 
-    /*public ArrayList<Driver> generateDriversPark(int numberOfDrivers) {
-        ArrayList<Driver> drivers = new ArrayList<Driver>();
-        for (int i = 0; i < numberOfDrivers; i++) {
-            Driver driver = new Driver(i, generateDriverName(), generateDriverSurname(), generateDriverExperience(), generateDriverClass(), new HashMap<Integer, String>());
-            drivers.add(driver);
-        }
-        return drivers;
-    }*/
-
     public String[] generateDriver(){
         return new String[]{generateDriverName(), generateDriverSurname(), generateDriverClass(), String.valueOf(generateDriverExperience())};
     }

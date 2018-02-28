@@ -1,20 +1,20 @@
 package Kurs.Classes;
 
 public class Route {
-    private int id;
+    private int number;
     private String startTime;
     private String endTime;
 
-    public Route(int id, String startTime, String endTime) {
+    public Route(int number, String startTime, String endTime) {
 
-        this.id = id;
+        this.number = number;
         this.startTime = startTime;
         this.endTime = endTime;
     }
 
-    public int getId() {
+    public int getNumber() {
 
-        return id;
+        return number;
     }
 
     public String getStartTime() {

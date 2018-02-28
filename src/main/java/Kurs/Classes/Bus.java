@@ -1,38 +1,27 @@
 package Kurs.Classes;
 
-import java.util.HashMap;
-
 public class Bus {
-    private int busId;
-    private String busNumber;
-    private HashMap<Integer, String> busViolations;
+    private String governmentNumber;
+    private int busNumber;
 
-    public Bus(int busId, String busNumber, HashMap<Integer, String> busViolations) {
+    public Bus(String governmentNumber, int busNumber) {
 
-        this.busId = busId;
+        this.governmentNumber = governmentNumber;
         this.busNumber = busNumber;
-        this.busViolations = busViolations;
     }
 
-    public void setBusViolations(HashMap<Integer, String> busViolations) {
-        this.busViolations = busViolations;
-    }
-
-    public void setBusNumber(String busNumber) {
+    public void setBusNumber(int busNumber) {
 
         this.busNumber = busNumber;
     }
 
-    public int getBusId() {
+    public String getGovernmentNumber() {
 
-        return busId;
+        return governmentNumber;
     }
 
-    public String getBusNumber() {
+    public int getBusNumber() {
         return busNumber;
     }
 
-    public HashMap<Integer, String> getBusViolations() {
-        return busViolations;
-    }
 }

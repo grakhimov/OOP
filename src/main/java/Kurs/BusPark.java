@@ -1,125 +1,151 @@
 package Kurs;
 
-import Kurs.Classes.Driver;
+import Kurs.Methods.BusMethods;
 import Kurs.Methods.DriverMethods;
+import Kurs.Methods.RouteMethods;
+import org.w3c.dom.*;
+import org.xml.sax.SAXException;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Arrays;
 
-import static javax.swing.filechooser.FileSystemView.getFileSystemView;
-
 public class BusPark {
+    private static String[][] driversList;
+    private static String[][] busesList;
+    private static String[][] routesList;
     private JFrame busPark;
-    private DefaultTableModel model;
-    private JPanel panel;
-    private JPanel cardPanel;
-    private JButton openFile;
-    private JButton saveFile;
-    private JButton deleteRow;
-    private JButton addRow;
-    private JButton closeFile;
-
-    private JToolBar menuBar;
+    private JPanel tableCardPanel;
+    private JPanel toolbarCardPanel;
     private JToolBar filterBar;
-    private JScrollPane scroll;
-    private JTable table;
-    private JComboBox<String> driver;
+    private JTable driversTable;
+    private JTable busesTable;
+    private JTable routesTable;
+    private JComboBox<String> filterDropdown;
     private JTextField searchField;
     private JButton filter;
-    private ButtonGroup tableSelector;
-    private JRadioButton driversTable;
-    private JRadioButton busesTable;
-    private JRadioButton routesTable;
+    private ButtonGroup tableSelectorButtonGroup;
+    private JRadioButton driversRadioButton;
+    private JRadioButton busesRadioButton;
+    private JRadioButton routesRadioButton;
 
-    private JToolBar showDriversToolbar(){
-        String[] comboBoxLines = {"name", "surname", "experience", "class"};
+    public static void main(String[] args) {
+        DriverMethods driverMethods = new DriverMethods();
+        driversList = new String[][]{};
+        BusMethods busMethods = new BusMethods();
+        busesList = busMethods.generateBusPark(20);
+        RouteMethods routeMethods = new RouteMethods();
+        routesList = routeMethods.generateRoutes(20);
+        new BusPark().show();
+    }
+
+    private JToolBar showDriversToolbar() {
+        String[] filterBy = {"name", "surname", "experience", "class"};
         filterBar = new JToolBar();
         filterBar.setLayout(new FlowLayout());
-        driver = new JComboBox<>(comboBoxLines);
+        filterDropdown = new JComboBox<>(filterBy);
         filter = new JButton("Filter");
         searchField = new JTextField();
         searchField.setPreferredSize(new Dimension(200, 20));
-        filterBar.add(driver);
+        filterBar.add(filterDropdown);
         filterBar.add(searchField);
         filterBar.add(filter);
         return filterBar;
     }
 
-    private JToolBar showBusesToolbar(){
-        String[] comboBoxLines = {"id", "number", "violations"};
+    private JToolBar showBusesToolbar() {
+        String[] filterBy = {"governmentNumber", "number"};
         filterBar = new JToolBar();
         filterBar.setLayout(new FlowLayout());
-        driver = new JComboBox<>(comboBoxLines);
+        filterDropdown = new JComboBox<>(filterBy);
         filter = new JButton("Filter");
         searchField = new JTextField();
         searchField.setPreferredSize(new Dimension(200, 20));
-        filterBar.add(driver);
+        filterBar.add(filterDropdown);
         filterBar.add(searchField);
         filterBar.add(filter);
         return filterBar;
     }
 
-    private JToolBar showRoutesToolbar(){
-        String[] comboBoxLines = {"id", "startTime", "endTime"};
+    private JToolBar showRoutesToolbar() {
+        String[] filterBy = {"number", "startTime", "endTime"};
+        String[] expressions = {">", "<", "="};
         filterBar = new JToolBar();
         filterBar.setLayout(new FlowLayout());
-        driver = new JComboBox<>(comboBoxLines);
+        filterDropdown = new JComboBox<>(filterBy);
         filter = new JButton("Filter");
         searchField = new JTextField();
         searchField.setPreferredSize(new Dimension(200, 20));
-        filterBar.add(driver);
+        JComboBox<String> filterExpressionDropdown = new JComboBox<>(expressions);
+        filterBar.add(filterDropdown);
+        filterBar.add(filterExpressionDropdown);
         filterBar.add(searchField);
         filterBar.add(filter);
         return filterBar;
     }
 
-    private JTable showDriversTable(String[][] drivers){
+    private JTable getDriversTableFromArray(String[][] drivers) {
         String[] columnNames = {"Name", "Surname", "Class", "Experience"};
-        table = new JTable(drivers, columnNames);
-
-        return table;
+        driversTable = new JTable(drivers, columnNames);
+        return driversTable;
     }
+
+    private JTable showBusesTable(String[][] buses) {
+        String[] columnNames = {"governmentNumber", "number"};
+        busesTable = new JTable(buses, columnNames);
+
+        return busesTable;
+    }
+
+    private JTable showRoutesTable(String[][] routes) {
+        String[] columnNames = {"number", "startTime", "endTime"};
+        routesTable = new JTable(routes, columnNames);
+
+        return routesTable;
+    }
+
     private void show() {
-        Dimension buttonDimensions = new Dimension(40,40);
+        Dimension buttonDimensions = new Dimension(40, 40);
+        Dimension tableDimensions = new Dimension(785,343);
         busPark = new JFrame("Bus Park");
         busPark.setSize(800, 500);
         busPark.setLocation(400, 300);
         busPark.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        panel = new JPanel(new BorderLayout());
+        JPanel mainPanel = new JPanel(new BorderLayout());
 
-        DriverMethods driverMethods = new DriverMethods();
-        String[][] drivers = driverMethods.generateDriversPark(20);
-        table = showDriversTable(drivers);
-        JScrollPane tablePane = new JScrollPane(table);
-        table.setFillsViewportHeight(true);
-        panel.add(tablePane, BorderLayout.CENTER);
-        JToolBar toolBar = showDriversToolbar();
-        toolBar.setFloatable(false);
-        panel.add(toolBar, BorderLayout.SOUTH);
 
-        menuBar = new JToolBar();
+        JToolBar menuBar = new JToolBar();
         menuBar.setFloatable(false);
 
         menuBar.setPreferredSize(new Dimension(300, 50));
         menuBar.setLayout(new BoxLayout(menuBar, BoxLayout.LINE_AXIS));
 
 
-        openFile = new JButton();
+        JButton openFile = new JButton();
         openFile.setToolTipText("Open File");
-        saveFile = new JButton();
+        JButton saveFile = new JButton();
         saveFile.setToolTipText("Save File");
-        closeFile = new JButton();
+        JButton closeFile = new JButton();
         closeFile.setToolTipText("Close File");
-        addRow = new JButton();
+        JButton addRow = new JButton();
         addRow.setToolTipText("Add Row");
-        deleteRow = new JButton();
+        JButton deleteRow = new JButton();
         deleteRow.setToolTipText("Delete Row");
 
         openFile.setPreferredSize(buttonDimensions);
@@ -142,10 +168,100 @@ public class BusPark {
         openFile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                openFile();
+                FileDialog open = new FileDialog(busPark, "Open File", FileDialog.LOAD);
+                open.setFile("*.xml");
+                open.setVisible(true);
+                File xmlFile = new File(open.getDirectory() + open.getFile());
+                Document doc = null;
+                try {
+                    DocumentBuilder dBuilder =
+                            DocumentBuilderFactory.newInstance().newDocumentBuilder();
+                    doc = dBuilder.parse(xmlFile);
+                    doc.getDocumentElement().normalize();
+
+                    NodeList items = doc.getElementsByTagName("items").item(0).getChildNodes();
+                    NodeList driverNodeList = items.item(0).getChildNodes();
+                    NodeList busesList = items.item(1).getChildNodes();
+                    NodeList routesList = items.item(2).getChildNodes();
+
+                    driversList = new String [driverNodeList.getLength()][];
+                    for (int i = 0; i < driverNodeList.getLength(); i++) {
+                        Node elem = driverNodeList.item(i);
+                        NamedNodeMap attrs = elem.getAttributes();
+                        String name = attrs.getNamedItem("name").getNodeValue();
+                        String surname = attrs.getNamedItem("surname").getNodeValue();
+                        String driverClass = attrs.getNamedItem("class").getNodeValue();
+                        String experience = attrs.getNamedItem("experience").getNodeValue();
+                        System.out.println(name + surname +driverClass + experience);
+                        driversList[i] = new String[]{name, surname, driverClass, experience};
+
+                    }
+                    System.out.println(Arrays.deepToString(driversList));
+                    driversTable = getDriversTableFromArray(driversList);
+                    tableCardPanel.revalidate();
+                    tableCardPanel.repaint();
+
+
+                }
+                catch (ParserConfigurationException | SAXException | IOException el) { el.printStackTrace(); }
             }
         });
 
+        saveFile.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println(tableSelectorButtonGroup.getSelection().getActionCommand());
+                FileDialog save = new FileDialog(busPark, "Save to File", FileDialog.SAVE);
+                save.setFile("*.xml");
+                save.setVisible(true);
+                String fileName = save.getDirectory() + save.getFile();
+                try {
+                    DocumentBuilder builder =
+                            DocumentBuilderFactory.newInstance().newDocumentBuilder();
+                    Document doc = builder.newDocument();
+                    Node itemsList = doc.createElement("items");
+                    doc.appendChild(itemsList);
+                    Node driversList = doc.createElement("drivers");
+                    itemsList.appendChild(driversList);
+                    for (int i = 0; i < driversTable.getRowCount(); i++) {
+                        Element driver = doc.createElement("driver");
+                        driversList.appendChild(driver);
+                        driver.setAttribute("name", (String) driversTable.getValueAt(i, 0));
+                        driver.setAttribute("surname", (String) driversTable.getValueAt(i, 1));
+                        driver.setAttribute("class", (String) driversTable.getValueAt(i, 2));
+                        driver.setAttribute("experience", (String) driversTable.getValueAt(i, 3));
+                    }
+                    Node busesList = doc.createElement("buses");
+                    itemsList.appendChild(busesList);
+                    for (int i = 0; i < busesTable.getRowCount(); i++) {
+                        Element bus = doc.createElement("bus");
+                        busesList.appendChild(bus);
+                        bus.setAttribute("governmentNumber", (String) busesTable.getValueAt(i, 0));
+                        bus.setAttribute("number", (String) busesTable.getValueAt(i, 1));
+                    }
+                    Node routesList = doc.createElement("routes");
+                    itemsList.appendChild(routesList);
+                    for (int i = 0; i < routesTable.getRowCount(); i++) {
+                        Element route = doc.createElement("route");
+                        routesList.appendChild(route);
+                        route.setAttribute("number", (String) routesTable.getValueAt(i, 0));
+                        route.setAttribute("startTime", (String) routesTable.getValueAt(i, 1));
+                        route.setAttribute("endTime", (String) routesTable.getValueAt(i, 2));
+                    }
+                    try {
+                        Transformer trans = TransformerFactory.newInstance().newTransformer();
+                        java.io.FileWriter fw = new FileWriter(fileName);
+                        trans.transform(new DOMSource(doc), new StreamResult(fw));
+                        fw.close();
+
+                    } catch (TransformerException | IOException eq) {
+                        eq.printStackTrace();
+                    }
+                } catch (ParserConfigurationException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
 
         menuBar.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
         menuBar.add(openFile);
@@ -154,88 +270,115 @@ public class BusPark {
         menuBar.add(addRow);
         menuBar.add(deleteRow);
 
-        tableSelector = new ButtonGroup();
-        driversTable = new JRadioButton("Drivers");
-        driversTable.setSelected(true);
-        RadioButtonActionListener actionListener = new RadioButtonActionListener();
-        driversTable.addActionListener(actionListener);
-        busesTable = new JRadioButton("Buses");
-        busesTable.addActionListener(actionListener);
-        routesTable = new JRadioButton("Routes");
-        routesTable.addActionListener(actionListener);
-        tableSelector.add(driversTable);
-        tableSelector.add(busesTable);
-        tableSelector.add(routesTable);
-        menuBar.add(driversTable);
-        menuBar.add(busesTable);
-        menuBar.add(routesTable);
+        tableSelectorButtonGroup = new ButtonGroup();
+        driversRadioButton = new JRadioButton("drivers");
+        RadioButtonActionListener listener = new RadioButtonActionListener();
+        driversRadioButton.addItemListener(listener);
+        busesRadioButton = new JRadioButton("buses");
+        busesRadioButton.addItemListener(listener);
+        routesRadioButton = new JRadioButton("routes");
+        routesRadioButton.addItemListener(listener);
+        tableSelectorButtonGroup.add(driversRadioButton);
+        tableSelectorButtonGroup.add(busesRadioButton);
+        tableSelectorButtonGroup.add(routesRadioButton);
+        menuBar.add(driversRadioButton);
+        menuBar.add(busesRadioButton);
+        menuBar.add(routesRadioButton);
 
+        driversTable = getDriversTableFromArray(driversList);
+        driversTable.setFillsViewportHeight(true);
+        busesTable = showBusesTable(busesList);
+        busesTable.setFillsViewportHeight(true);
+        routesTable = showRoutesTable(routesList);
+        routesTable.setFillsViewportHeight(true);
 
-        panel.add(menuBar, BorderLayout.NORTH);
-        busPark.add(panel);
+        JScrollPane driversTablePane = new JScrollPane(driversTable);
+        driversTablePane.setPreferredSize(tableDimensions);
+        JScrollPane busesTablePane = new JScrollPane(busesTable);
+        busesTablePane.setPreferredSize(tableDimensions);
+        JScrollPane routesTablePane = new JScrollPane(routesTable);
+        routesTablePane.setPreferredSize(tableDimensions);
+
+        tableCardPanel = new JPanel(new CardLayout());
+
+        JPanel driversPanel = new JPanel();
+        driversPanel.add(driversTablePane);
+        JPanel busesPanel = new JPanel();
+        busesPanel.add(busesTablePane);
+        JPanel routesPanel = new JPanel();
+        routesPanel.add(routesTablePane);
+        JScrollPane emptyPane = new JScrollPane();
+        tableCardPanel.add(emptyPane);
+        tableCardPanel.add(driversPanel, "drivers");
+        tableCardPanel.add(busesPanel, "buses");
+        tableCardPanel.add(routesPanel, "routes");
+        mainPanel.add(tableCardPanel, BorderLayout.CENTER);
+
+        mainPanel.add(menuBar, BorderLayout.NORTH);
+
+        toolbarCardPanel = new JPanel(new CardLayout());
+        JToolBar driversFilterBar = showDriversToolbar();
+        driversFilterBar.setFloatable(false);
+        JToolBar busesFilterBar = showBusesToolbar();
+        busesFilterBar.setFloatable(false);
+        JToolBar routesFilterBar = showRoutesToolbar();
+        routesFilterBar.setFloatable(false);
+        JToolBar emptyBar = new JToolBar();
+        emptyBar.setFloatable(false);
+        toolbarCardPanel.add(emptyBar);
+        toolbarCardPanel.add(driversFilterBar, "drivers");
+        toolbarCardPanel.add(busesFilterBar, "buses");
+        toolbarCardPanel.add(routesFilterBar, "routes");
+        mainPanel.add(toolbarCardPanel, BorderLayout.SOUTH);
+
+        busPark.add(mainPanel);
         busPark.setVisible(true);
     }
 
-    private void openFile(){
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setCurrentDirectory(getFileSystemView().getDefaultDirectory());
-
-        int result = fileChooser.showOpenDialog(null);
-
-        if (result == JFileChooser.APPROVE_OPTION)
-        {
-            String filename = fileChooser.getSelectedFile().getPath();
-            JOptionPane.showMessageDialog(null, "You selected " + filename);
-        }
-        else if (result == JFileChooser.CANCEL_OPTION)
-        {
-            JOptionPane.showMessageDialog(null, "You selected nothing.");
-        }
-        else if (result == JFileChooser.ERROR_OPTION)
-        {
-            JOptionPane.showMessageDialog(null, "An error occurred.");
-        }
-    }
-
-    class RadioButtonActionListener implements ActionListener {
+    class RadioButtonActionListener implements ItemListener {
         @Override
-        public void actionPerformed(ActionEvent event) {
-            if (event.getSource() == driversTable){
+        public void itemStateChanged(ItemEvent event) {
+            if (event.getItemSelectable() == driversRadioButton) {
                 System.out.println("drivers");
-            }
-            else if (event.getSource() == busesTable){
+                CardLayout cl = (CardLayout)(tableCardPanel.getLayout());
+                cl.show(tableCardPanel, "drivers");
+                cl = (CardLayout)(toolbarCardPanel.getLayout());
+                cl.show(toolbarCardPanel, "drivers");
+            } else if (event.getItemSelectable() == busesRadioButton) {
                 System.out.println("buses");
-                System.out.println(Arrays.toString(Driver.class.getFields()));
-                /*panel.remove(table);
-                panel.repaint();*/
-            }
-            else if (event.getSource() == routesTable){
+                CardLayout cl = (CardLayout)(tableCardPanel.getLayout());
+                cl.show(tableCardPanel, "buses");
+                cl = (CardLayout)(toolbarCardPanel.getLayout());
+                cl.show(toolbarCardPanel, "buses");
+            } else if (event.getItemSelectable() == routesRadioButton) {
                 System.out.println("routes");
+                CardLayout cl = (CardLayout)(tableCardPanel.getLayout());
+                cl.show(tableCardPanel, "routes");
+                cl = (CardLayout)(toolbarCardPanel.getLayout());
+                cl.show(toolbarCardPanel, "routes");
             }
         }
     }
 
-    public static void main(String[] args) {
+//    private void openFile(){
+//        JFileChooser fileChooser = new JFileChooser();
+//        fileChooser.setCurrentDirectory(getFileSystemView().getDefaultDirectory());
+//
+//        int result = fileChooser.showOpenDialog(null);
+//
+//        if (result == JFileChooser.APPROVE_OPTION)
+//        {
+//            String filename = fileChooser.getSelectedFile().getPath();
+//            JOptionPane.showMessageDialog(null, "You selected " + filename);
+//        }
+//        else if (result == JFileChooser.CANCEL_OPTION)
+//        {
+//            JOptionPane.showMessageDialog(null, "You selected nothing.");
+//        }
+//        else if (result == JFileChooser.ERROR_OPTION)
+//        {
+//            JOptionPane.showMessageDialog(null, "An error occurred.");
+//        }
+//    }
 
-        DriverMethods driverMethods = new DriverMethods();
-        String[][] drivers = driverMethods.generateDriversPark(20);
-        System.out.println(Arrays.deepToString(drivers));
-        /*for (Driver driver : drivers) {
-            System.out.println(driver.getDriverId() + " " + driver.getDriverName() + " " + driver.getDriverSurname() + " " + driver.getExperience() + " " + driver.getDriverClass());
-        }
-        BusMethods busMethods = new BusMethods();
-        ArrayList<Bus> buses = busMethods.generateBusPark(25);
-        for (Bus bus: buses) {
-            System.out.println(bus.getBusId() + " " + bus.getBusNumber());
-        }
-        busMethods.addBusVoilations(buses, 0, "idiot");
-        System.out.println(buses.get(0).getBusId() + buses.get(0).getBusNumber() + buses.get(0).getBusViolations());
-        RouteMethods routeMethods = new RouteMethods();
-        ArrayList<Route> routes = routeMethods.generateRoutes(25);
-        for (Route route : routes) {
-            System.out.println(route.getId() + " " + route.getStartTime() + " " + route.getEndTime());
-        }*/
-
-        new BusPark().show();
-    }
 }
