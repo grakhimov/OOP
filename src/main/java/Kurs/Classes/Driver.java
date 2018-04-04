@@ -1,27 +1,16 @@
 package Kurs.Classes;
 
-import java.util.HashMap;
-
 public class Driver {
-    private int driverId;
     private String driverName;
     private String driverSurname;
-    private int experience;
+    private String driverExperience;
     private String driverClass;
-    private HashMap<Integer, String> driverViolations;
 
-    public Driver(int driverId, String driverName, String driverSurname, int experience, String driverClass, HashMap<Integer, String> driverViolations) {
-        this.driverId = driverId;
+    public Driver(String driverName, String driverSurname, String driverExperience, String driverClass) {
         this.driverName = driverName;
-
         this.driverSurname = driverSurname;
-        this.experience = experience;
+        this.driverExperience = driverExperience;
         this.driverClass = driverClass;
-        this.driverViolations = driverViolations;
-    }
-
-    public int getDriverId() {
-        return driverId;
     }
 
     public String getDriverName() {
@@ -32,15 +21,28 @@ public class Driver {
         return driverSurname;
     }
 
-    public int getExperience() {
-        return experience;
+    public String getDriverExperience() {
+        return driverExperience;
     }
 
     public String getDriverClass() {
         return driverClass;
     }
 
-    public HashMap<Integer, String> getDriverViolations() {
-        return driverViolations;
+    public void setDriverExperience(String driverExperience) {
+        this.driverExperience = driverExperience;
     }
+
+    public void setDriverName(String driverName) {
+        this.driverName = driverName;
+    }
+
+    public void setDriverSurname(String driverSurname) {
+        this.driverSurname = driverSurname;
+    }
+
+    public void setDriverClass(String driverClass) {
+        this.driverClass = driverClass;
+    }
+
 }

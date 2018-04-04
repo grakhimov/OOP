@@ -1,35 +1,42 @@
 package Kurs.Classes;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 public class Route {
-    private int number;
-    private String startTime;
-    private String endTime;
+    public static final String[] possibleBusNumbers = {"1", "2", "3", "5", "8", "13", "21"};
+    DateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+    private String routeNumber;
+    private String routeStartTime;
+    private String routeEndTime;
 
-    public Route(int number, String startTime, String endTime) {
-
-        this.number = number;
-        this.startTime = startTime;
-        this.endTime = endTime;
+    public Route(String routeNumber, String routeStartTime, String routeEndTime) {
+        this.routeNumber = routeNumber;
+        this.routeStartTime = routeStartTime;
+        this.routeEndTime = routeEndTime;
     }
 
-    public int getNumber() {
-
-        return number;
+    public String getRouteNumber() {
+        return routeNumber;
     }
 
-    public String getStartTime() {
-        return startTime;
+    public void setRouteNumber(String routeNumber) {
+        this.routeNumber = routeNumber;
     }
 
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
+    public String getRouteStartTime() {
+        return routeStartTime;
     }
 
-    public String getEndTime() {
-        return endTime;
+    public void setRouteStartTime(String routeStartTime) {
+        this.routeStartTime = routeStartTime;
     }
 
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
+    public String getRouteEndTime() {
+        return routeEndTime;
+    }
+
+    public void setRouteEndTime(String routeEndTime) {
+        this.routeEndTime = routeEndTime;
     }
 }

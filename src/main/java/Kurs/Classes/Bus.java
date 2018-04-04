@@ -2,17 +2,21 @@ package Kurs.Classes;
 
 public class Bus {
     private String governmentNumber;
-    private int busNumber;
+    public static final String possibleLettersAndDigits = "ABCEHKMOPTXY0123456789";
+    private static final int[] possibleBusNumbers = {1, 2, 3, 5, 8, 13, 21};
+    private String busRouteNumber;
 
-    public Bus(String governmentNumber, int busNumber) {
-
+    public Bus(String governmentNumber, String busRouteNumber) {
         this.governmentNumber = governmentNumber;
-        this.busNumber = busNumber;
+        this.busRouteNumber = busRouteNumber;
     }
 
-    public void setBusNumber(int busNumber) {
+    public void setGovernmentNumber(String governmentNumber) {
+        this.governmentNumber = governmentNumber;
+    }
 
-        this.busNumber = busNumber;
+    public String getBusRouteNumber() {
+        return busRouteNumber;
     }
 
     public String getGovernmentNumber() {
@@ -20,8 +24,9 @@ public class Bus {
         return governmentNumber;
     }
 
-    public int getBusNumber() {
-        return busNumber;
+    public void setBusRouteNumber(String busRouteNumber) {
+
+        this.busRouteNumber = busRouteNumber;
     }
 
 }

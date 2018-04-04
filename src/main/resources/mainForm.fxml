@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<Pane xmlns:fx="http://javafx.com/fxml/1" prefHeight="425.0" prefWidth="719.0" xmlns="http://javafx.com/javafx/8"
+      fx:controller="Kurs.Controllers.MainFormController">
+    <children>
+        <AnchorPane prefHeight="418.0" prefWidth="719.0">
+            <children>
+                <Separator layoutX="6.0" layoutY="54.0" prefHeight="1.0" prefWidth="708.0"/>
+                <Button fx:id="openFile" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#openFile"
+                        text="Открыть файл"/>
+                <Button fx:id="saveFile" layoutX="129.0" layoutY="14.0" mnemonicParsing="false" onAction="#saveFile"
+                        text="Сохранить в файл"/>
+                <TabPane layoutX="6.0" layoutY="54.0" prefHeight="353.0" prefWidth="708.0"
+                         tabClosingPolicy="UNAVAILABLE">
+                    <tabs>
+                        <Tab text="Водители">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                    <children>
+                                        <TableView fx:id="driversTable" editable="true" layoutY="91.0"
+                                                   prefHeight="194.0" prefWidth="708.0">
+                                            <columns>
+                                                <TableColumn fx:id="driverName" prefWidth="295.0" text="Имя"/>
+                                                <TableColumn fx:id="driverSurname" prefWidth="295.0" text="Фамилия"/>
+                                                <TableColumn fx:id="driverExperience" prefWidth="55.0" text="Стаж"/>
+                                                <TableColumn fx:id="driverClass" prefWidth="55.0" text="Класс"/>
+                                            </columns>
+                                        </TableView>
+                                        <GridPane layoutX="82.0" layoutY="295.0" prefHeight="31.0" prefWidth="545.0">
+                                            <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                            </rowConstraints>
+                                            <children>
+                                                <ComboBox fx:id="driverFilter" prefHeight="25.0" prefWidth="269.0"
+                                                          promptText="Выберите фильтр.."/>
+                                                <TextField fx:id="driverFilterField" onKeyTyped="#filterDrivers"
+                                                           prefHeight="25.0" prefWidth="82.0" GridPane.columnIndex="1"/>
+                                            </children>
+                                        </GridPane>
+                                        <GridPane layoutX="14.0" layoutY="11.0" prefHeight="60.0" prefWidth="680.0">
+                                            <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                            </rowConstraints>
+                                            <children>
+                                                <Button fx:id="createDriver" disable="true" mnemonicParsing="false"
+                                                        onAction="#createDriver" prefHeight="25.0" prefWidth="132.0"
+                                                        text="Добавить водителя"/>
+                                                <Button fx:id="deleteDriver" disable="true" mnemonicParsing="false"
+                                                        onAction="#deleteDriver" prefHeight="25.0" prefWidth="131.0"
+                                                        text="Удалить водителя" GridPane.rowIndex="1"/>
+                                                <TextField fx:id="addFirstName" promptText="Имя водителя"
+                                                           GridPane.columnIndex="1"/>
+                                                <TextField fx:id="addSurname" promptText="Фамилия водителя"
+                                                           GridPane.columnIndex="2"/>
+                                                <ComboBox fx:id="addDriverExperience" prefWidth="150.0"
+                                                          promptText="Стаж Водителя" GridPane.columnIndex="3"/>
+                                                <ComboBox fx:id="addDriverClass" prefWidth="150.0"
+                                                          promptText="Класс водителя" GridPane.columnIndex="4"/>
+                                            </children>
+                                        </GridPane>
+                                    </children>
+                                </AnchorPane>
+                            </content>
+                        </Tab>
+                        <Tab text="Автобусы">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                    <children>
+                                        <TableView fx:id="busesTable" editable="true" layoutY="91.0" prefHeight="194.0"
+                                                   prefWidth="708.0">
+                                            <columns>
+                                                <TableColumn fx:id="governmentNumber" prefWidth="113.0"
+                                                             text="Госномер"/>
+                                                <TableColumn fx:id="busRouteNumber" prefWidth="117.0"
+                                                             text="Номер маршрута"/>
+                                            </columns>
+                                        </TableView>
+                                        <GridPane layoutX="82.0" layoutY="295.0" prefHeight="31.0" prefWidth="545.0">
+                                            <children>
+                                                <ComboBox fx:id="busFilter" prefHeight="25.0" prefWidth="269.0"
+                                                          promptText="Выберите фильтр.."/>
+                                                <TextField fx:id="busFilterField" onKeyTyped="#filterBuses"
+                                                           prefHeight="25.0" prefWidth="82.0" GridPane.columnIndex="1"/>
+                                            </children>
+                                            <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                            </rowConstraints>
+                                        </GridPane>
+                                        <GridPane layoutX="14.0" layoutY="14.0" prefHeight="60.0" prefWidth="681.0">
+                                            <children>
+                                                <Button fx:id="createBus" disable="true" mnemonicParsing="false"
+                                                        onAction="#createBus" prefHeight="25.0" prefWidth="135.0"
+                                                        text="Добавить автобус"/>
+                                                <Button fx:id="deleteBus" disable="true" mnemonicParsing="false"
+                                                        onAction="#deleteBus" prefHeight="25.0" prefWidth="133.0"
+                                                        text="Удалить автобус" GridPane.rowIndex="1"/>
+                                                <TextField fx:id="addGovernmentNumber" promptText="Госномер"
+                                                           GridPane.columnIndex="1"/>
+                                                <ComboBox fx:id="addBusRouteNumber" prefHeight="25.0" prefWidth="218.0"
+                                                          promptText="Номер Маршрута" GridPane.columnIndex="2"/>
+                                            </children>
+                                            <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                            </rowConstraints>
+                                        </GridPane>
+                                    </children>
+                                </AnchorPane>
+                            </content>
+                        </Tab>
+                        <Tab text="Маршруты">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                    <children>
+                                        <TableView fx:id="routesTable" editable="true" layoutX="-5.0" layoutY="91.0"
+                                                   prefHeight="194.0" prefWidth="719.0">
+                                            <columns>
+                                                <TableColumn fx:id="routeNumber" prefWidth="118.0"
+                                                             text="Номер маршрута"/>
+                                                <TableColumn fx:id="routeStartTime" prefWidth="157.0"
+                                                             text="Время начала движения"/>
+                                                <TableColumn fx:id="routeEndTime" prefWidth="185.0"
+                                                             text="Время окончания движения"/>
+                                            </columns>
+                                        </TableView>
+                                        <GridPane layoutX="82.0" layoutY="295.0" prefHeight="31.0" prefWidth="545.0">
+                                            <children>
+                                                <ComboBox fx:id="routeFilter" prefHeight="25.0" prefWidth="269.0"
+                                                          promptText="Выберите фильтр.."/>
+                                                <TextField fx:id="routeFilterField" onKeyTyped="#filterRoutes"
+                                                           prefHeight="25.0" prefWidth="82.0" GridPane.columnIndex="1"/>
+                                            </children>
+                                            <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                            </rowConstraints>
+                                        </GridPane>
+                                        <GridPane layoutX="14.0" layoutY="14.0" prefHeight="60.0" prefWidth="685.0">
+                                            <children>
+                                                <Button fx:id="createRoute" disable="true" mnemonicParsing="false"
+                                                        onAction="#createRoute" prefHeight="25.0" prefWidth="132.0"
+                                                        text="Добавить Маршрут"/>
+                                                <Button fx:id="deleteRoute" disable="true" mnemonicParsing="false"
+                                                        onAction="#deleteRoute" prefHeight="25.0" prefWidth="131.0"
+                                                        text="Удалить маршрут" GridPane.rowIndex="1"/>
+                                                <TextField fx:id="addRouteStartTime" promptText="Время начала маршрута"
+                                                           GridPane.columnIndex="2"/>
+                                                <TextField fx:id="addRouteEndTime" promptText="Время окончания маршрута"
+                                                           GridPane.columnIndex="3"/>
+                                                <ComboBox fx:id="addRouteNumber" prefHeight="25.0" prefWidth="218.0"
+                                                          promptText="Номер Маршрута" GridPane.columnIndex="1"/>
+                                            </children>
+                                            <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                            </rowConstraints>
+                                        </GridPane>
+                                    </children>
+                                </AnchorPane>
+                            </content>
+                        </Tab>
+                        <Tab text="Нарушения">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                    <children>
+                                        <TableView fx:id="violationsTable" editable="true" layoutX="-5.0" layoutY="91.0"
+                                                   prefHeight="194.0" prefWidth="719.0">
+                                            <columns>
+                                                <TableColumn fx:id="violatedRouteNumber" prefWidth="118.0"
+                                                             text="Номер маршрута"/>
+                                                <TableColumn fx:id="violationDate" prefWidth="90.0" text="Дата"/>
+                                                <TableColumn fx:id="violatedDriver" prefWidth="225.0" text="Водитель"/>
+                                                <TableColumn fx:id="violationDescription" prefWidth="285.0"
+                                                             text="Описание нарушения"/>
+                                            </columns>
+                                        </TableView>
+                                        <GridPane layoutX="82.0" layoutY="295.0" prefHeight="31.0" prefWidth="545.0">
+                                            <children>
+                                                <ComboBox fx:id="violationFilter" prefHeight="25.0" prefWidth="269.0"
+                                                          promptText="Выберите фильтр.."/>
+                                                <TextField fx:id="violationFilterField" onKeyTyped="#filterViolations"
+                                                           prefHeight="25.0" prefWidth="82.0" GridPane.columnIndex="1"/>
+                                            </children>
+                                            <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                            </rowConstraints>
+                                        </GridPane>
+                                        <GridPane layoutX="15.0" layoutY="14.0" prefHeight="60.0" prefWidth="680.0">
+                                            <children>
+                                                <Button fx:id="createViolation" disable="true" mnemonicParsing="false"
+                                                        onAction="#createViolation" prefHeight="25.0" prefWidth="132.0"
+                                                        text="Добавить Нарушение"/>
+                                                <Button fx:id="deleteViolation" disable="true" mnemonicParsing="false"
+                                                        onAction="#deleteDriver" prefHeight="25.0" prefWidth="131.0"
+                                                        text="Удалить нарушение" GridPane.rowIndex="1"/>
+                                                <ComboBox fx:id="addViolatedDriver" prefWidth="150.0"
+                                                          promptText="Водитель" GridPane.columnIndex="3"/>
+                                                <DatePicker fx:id="addViolationDate" GridPane.columnIndex="2"/>
+                                                <TextField fx:id="addViolationDescription"
+                                                           promptText="Описание нарушения" GridPane.columnIndex="4"/>
+                                                <ComboBox fx:id="addViolatedRouteNumber" prefHeight="25.0"
+                                                          prefWidth="218.0" promptText="Номер Маршрута"
+                                                          GridPane.columnIndex="1"/>
+                                            </children>
+                                            <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                            </rowConstraints>
+                                        </GridPane>
+                                    </children>
+                                </AnchorPane>
+                            </content>
+                        </Tab>
+                    </tabs>
+                </TabPane>
+                <Button fx:id="closeFile" layoutX="266.0" layoutY="14.0" mnemonicParsing="false" onAction="#closeFile"
+                        text="Закрыть"/>
+            </children>
+        </AnchorPane>
+    </children>
+</Pane>

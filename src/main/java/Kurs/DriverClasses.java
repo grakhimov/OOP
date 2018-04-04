@@ -1,4 +1,4 @@
-package Kurs.Constants;
+package Kurs;
 
 public enum DriverClasses {
     D, BD, CD, BCD
