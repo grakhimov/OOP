@@ -3,9 +3,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <Pane xmlns:fx="http://javafx.com/fxml/1" prefHeight="425.0" prefWidth="719.0" xmlns="http://javafx.com/javafx/8"
-      fx:controller="Kurs.Controllers.MainFormController">
+      fx:controller="MainFormController">
     <children>
-        <AnchorPane prefHeight="418.0" prefWidth="719.0">
+        <AnchorPane prefHeight="418.0" prefWidth="719.0" fx:id="root">
             <children>
                 <Separator layoutX="6.0" layoutY="54.0" prefHeight="1.0" prefWidth="708.0"/>
                 <Button fx:id="openFile" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#openFile"
@@ -57,10 +57,10 @@
                                             </rowConstraints>
                                             <children>
                                                 <Button fx:id="createDriver" disable="true" mnemonicParsing="false"
-                                                        onAction="#createDriver" prefHeight="25.0" prefWidth="132.0"
+                                                        onAction="#createDriver" prefHeight="25.0" prefWidth="147.0"
                                                         text="Добавить водителя"/>
                                                 <Button fx:id="deleteDriver" disable="true" mnemonicParsing="false"
-                                                        onAction="#deleteDriver" prefHeight="25.0" prefWidth="131.0"
+                                                        onAction="#deleteDriver" prefHeight="25.0" prefWidth="154.0"
                                                         text="Удалить водителя" GridPane.rowIndex="1"/>
                                                 <TextField fx:id="addFirstName" promptText="Имя водителя"
                                                            GridPane.columnIndex="1"/>
@@ -70,6 +70,14 @@
                                                           promptText="Стаж Водителя" GridPane.columnIndex="3"/>
                                                 <ComboBox fx:id="addDriverClass" prefWidth="150.0"
                                                           promptText="Класс водителя" GridPane.columnIndex="4"/>
+                                                <Button fx:id="editDriver" mnemonicParsing="false"
+                                                        onAction="#editDriver" prefHeight="25.0" prefWidth="153.0"
+                                                        text="Редактировать..." GridPane.columnIndex="3"
+                                                        GridPane.rowIndex="1"/>
+                                                <Button fx:id="saveEditedDriver" mnemonicParsing="false"
+                                                        onAction="#saveEditedDriver" prefHeight="25.0" prefWidth="174.0"
+                                                        text="Сохранить запись" GridPane.columnIndex="4"
+                                                        GridPane.rowIndex="1"/>
                                             </children>
                                         </GridPane>
                                     </children>
@@ -107,15 +115,22 @@
                                         <GridPane layoutX="14.0" layoutY="14.0" prefHeight="60.0" prefWidth="681.0">
                                             <children>
                                                 <Button fx:id="createBus" disable="true" mnemonicParsing="false"
-                                                        onAction="#createBus" prefHeight="25.0" prefWidth="135.0"
+                                                        onAction="#createBus" prefHeight="25.0" prefWidth="237.0"
                                                         text="Добавить автобус"/>
                                                 <Button fx:id="deleteBus" disable="true" mnemonicParsing="false"
-                                                        onAction="#deleteBus" prefHeight="25.0" prefWidth="133.0"
+                                                        onAction="#deleteBus" prefHeight="25.0" prefWidth="235.0"
                                                         text="Удалить автобус" GridPane.rowIndex="1"/>
                                                 <TextField fx:id="addGovernmentNumber" promptText="Госномер"
                                                            GridPane.columnIndex="1"/>
-                                                <ComboBox fx:id="addBusRouteNumber" prefHeight="25.0" prefWidth="218.0"
+                                                <ComboBox fx:id="addBusRouteNumber" prefHeight="25.0" prefWidth="258.0"
                                                           promptText="Номер Маршрута" GridPane.columnIndex="2"/>
+                                                <Button fx:id="editBus" mnemonicParsing="false" onAction="#editBus"
+                                                        prefHeight="25.0" prefWidth="232.0" text="Редактировать..."
+                                                        GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                                                <Button fx:id="saveEditedBus" mnemonicParsing="false"
+                                                        onAction="#saveEditedBus" prefHeight="25.0" prefWidth="234.0"
+                                                        text="Сохранить запись" GridPane.columnIndex="2"
+                                                        GridPane.rowIndex="1"/>
                                             </children>
                                             <columnConstraints>
                                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
@@ -175,6 +190,13 @@
                                                            GridPane.columnIndex="3"/>
                                                 <ComboBox fx:id="addRouteNumber" prefHeight="25.0" prefWidth="218.0"
                                                           promptText="Номер Маршрута" GridPane.columnIndex="1"/>
+                                                <Button fx:id="editRoute" mnemonicParsing="false" onAction="#editRoute"
+                                                        prefHeight="25.0" prefWidth="232.0" text="Редактировать..."
+                                                        GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                                                <Button fx:id="saveEditedRoute" mnemonicParsing="false"
+                                                        onAction="#saveEditedRoute" prefHeight="25.0" prefWidth="234.0"
+                                                        text="Сохранить запись" GridPane.columnIndex="3"
+                                                        GridPane.rowIndex="1"/>
                                             </children>
                                             <columnConstraints>
                                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
@@ -227,7 +249,7 @@
                                                         onAction="#createViolation" prefHeight="25.0" prefWidth="132.0"
                                                         text="Добавить Нарушение"/>
                                                 <Button fx:id="deleteViolation" disable="true" mnemonicParsing="false"
-                                                        onAction="#deleteDriver" prefHeight="25.0" prefWidth="131.0"
+                                                        onAction="#deleteViolation" prefHeight="25.0" prefWidth="131.0"
                                                         text="Удалить нарушение" GridPane.rowIndex="1"/>
                                                 <ComboBox fx:id="addViolatedDriver" prefWidth="150.0"
                                                           promptText="Водитель" GridPane.columnIndex="3"/>
@@ -237,6 +259,14 @@
                                                 <ComboBox fx:id="addViolatedRouteNumber" prefHeight="25.0"
                                                           prefWidth="218.0" promptText="Номер Маршрута"
                                                           GridPane.columnIndex="1"/>
+                                                <Button fx:id="editViolation" mnemonicParsing="false"
+                                                        onAction="#editViolation" prefHeight="25.0" prefWidth="232.0"
+                                                        text="Редактировать..." GridPane.columnIndex="3"
+                                                        GridPane.rowIndex="1"/>
+                                                <Button fx:id="saveEditedViolation" mnemonicParsing="false"
+                                                        onAction="#saveEditedViolation" prefHeight="25.0"
+                                                        prefWidth="234.0" text="Сохранить запись"
+                                                        GridPane.columnIndex="4" GridPane.rowIndex="1"/>
                                             </children>
                                             <columnConstraints>
                                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>

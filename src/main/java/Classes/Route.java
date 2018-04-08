@@ -1,4 +1,4 @@
-package Kurs.Classes;
+package Classes;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

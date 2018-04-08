@@ -1,4 +1,4 @@
-package Kurs.Classes;
+package Classes;
 
 public class Violation {
     private String violatedRouteNumber;

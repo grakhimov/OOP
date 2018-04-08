@@ -1,13 +1,10 @@
-package Kurs.Controllers;
-
-import Kurs.Classes.Bus;
-import Kurs.Classes.Driver;
-import Kurs.Classes.Route;
-import Kurs.Classes.Violation;
-import Kurs.DriverClasses;
-import Kurs.Exceptions.FileCannotBeReadException;
-import Kurs.Exceptions.FileNameIsntDefinedException;
-import Kurs.Exceptions.ValueDoesntMatchPattern;
+import Classes.Bus;
+import Classes.Driver;
+import Classes.Route;
+import Classes.Violation;
+import Exceptions.FileCannotBeReadException;
+import Exceptions.FileNameIsntDefinedException;
+import Exceptions.ValueDoesntMatchPattern;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -39,6 +36,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -155,6 +153,22 @@ public class MainFormController extends Window {
     private Button deleteRoute;
     @FXML
     private Button createViolation;
+    @FXML
+    private Button saveEditedDriver;
+    @FXML
+    private Button editDriver;
+    @FXML
+    private Button saveEditedBus;
+    @FXML
+    private Button editBus;
+    @FXML
+    private Button saveEditedRoute;
+    @FXML
+    private Button editRoute;
+    @FXML
+    private Button saveEditedViolation;
+    @FXML
+    private Button editViolation;
     private Stage stage;
     private File file;
 
@@ -175,6 +189,7 @@ public class MainFormController extends Window {
     }
 
     private void initDriversTable() {
+        driversTable.setEditable(false);
         driverName.setCellValueFactory(new PropertyValueFactory<Driver, String>("driverName"));
         driverName.setCellFactory(TextFieldTableCell.forTableColumn());
         driverSurname.setCellValueFactory(new PropertyValueFactory<Driver, String>("driverSurname"));
@@ -203,9 +218,12 @@ public class MainFormController extends Window {
         addSurname.setDisable(true);
         driverFilter.setDisable(true);
         driverFilterField.setDisable(true);
+        editDriver.setDisable(true);
+        saveEditedDriver.setDisable(true);
     }
 
     private void initBusesTable() {
+        busesTable.setEditable(false);
         governmentNumber.setCellValueFactory(new PropertyValueFactory<Bus, String>("governmentNumber"));
         governmentNumber.setEditable(true);
         busRouteNumber.setCellValueFactory(new PropertyValueFactory<Bus, String>("busRouteNumber"));
@@ -222,9 +240,12 @@ public class MainFormController extends Window {
 
         busFilter.setDisable(true);
         busFilterField.setDisable(true);
+        editBus.setDisable(true);
+        saveEditedBus.setDisable(true);
     }
 
     private void initRoutesTable() {
+        routesTable.setEditable(false);
         routeNumber.setCellValueFactory(new PropertyValueFactory<Route, String>("routeNumber"));
         routeNumber.setCellFactory((TableColumn<Route, String> p) -> {
             ComboBoxTableCell cell = new ComboBoxTableCell(Route.possibleBusNumbers);
@@ -245,9 +266,12 @@ public class MainFormController extends Window {
         addRouteEndTime.setDisable(true);
         routeFilter.setDisable(true);
         routeFilterField.setDisable(true);
+        editRoute.setDisable(true);
+        saveEditedRoute.setDisable(true);
     }
 
     private void initViolationsTable() {
+        violationsTable.setEditable(false);
         violatedRouteNumber.setCellValueFactory(new PropertyValueFactory<Violation, String>("violatedRouteNumber"));
         violatedRouteNumber.setCellFactory((TableColumn<Violation, String> p) -> {
             ComboBoxTableCell cell = new ComboBoxTableCell(Route.possibleBusNumbers);
@@ -274,6 +298,8 @@ public class MainFormController extends Window {
         addViolationDescription.setDisable(true);
         violationFilter.setDisable(true);
         violationFilterField.setDisable(true);
+        editViolation.setDisable(true);
+        saveEditedViolation.setDisable(true);
     }
 
     private String[] availableDrivers() {
@@ -337,6 +363,10 @@ public class MainFormController extends Window {
         routeFilterField.setDisable(false);
         violationFilter.setDisable(false);
         violationFilterField.setDisable(false);
+        editDriver.setDisable(false);
+        editBus.setDisable(false);
+        editRoute.setDisable(false);
+        editViolation.setDisable(false);
 
         addViolatedDriver.getItems().setAll(availableDrivers());
     }
@@ -733,6 +763,96 @@ public class MainFormController extends Window {
         violationsTable.getItems().remove(violation);
     }
 
+    @FXML
+    void editDriver(ActionEvent event) {
+        addFirstName.appendText(driversTable.getSelectionModel().getSelectedItem().getDriverName());
+        addSurname.appendText(driversTable.getSelectionModel().getSelectedItem().getDriverSurname());
+        addDriverExperience.setValue(driversTable.getSelectionModel().getSelectedItem().getDriverExperience());
+        addDriverClass.setValue(driversTable.getSelectionModel().getSelectedItem().getDriverClass());
+        editDriver.setDisable(true);
+        saveEditedDriver.setDisable(false);
+    }
+
+    @FXML
+    void saveEditedDriver(ActionEvent event) {
+        driversTable.getSelectionModel().getSelectedItem().setDriverName(addFirstName.getText());
+        driversTable.getSelectionModel().getSelectedItem().setDriverSurname(addSurname.getText());
+        driversTable.getSelectionModel().getSelectedItem().setDriverExperience(addDriverExperience.getValue());
+        driversTable.getSelectionModel().getSelectedItem().setDriverClass(addDriverClass.getValue());
+        driversTable.refresh();
+        addFirstName.clear();
+        addSurname.clear();
+        addDriverExperience.getItems().clear();
+        addDriverClass.getItems().clear();
+        saveEditedDriver.setDisable(true);
+        editDriver.setDisable(false);
+    }
+
+    @FXML
+    void editBus(ActionEvent event) {
+        addGovernmentNumber.appendText(busesTable.getSelectionModel().getSelectedItem().getGovernmentNumber());
+        addBusRouteNumber.setValue(busesTable.getSelectionModel().getSelectedItem().getBusRouteNumber());
+        editBus.setDisable(true);
+        saveEditedBus.setDisable(false);
+    }
+
+    @FXML
+    void saveEditedBus(ActionEvent event) {
+        busesTable.getSelectionModel().getSelectedItem().setGovernmentNumber(addGovernmentNumber.getText());
+        busesTable.getSelectionModel().getSelectedItem().setBusRouteNumber(addBusRouteNumber.getValue());
+        busesTable.refresh();
+        addGovernmentNumber.clear();
+        addBusRouteNumber.getItems().clear();
+        saveEditedBus.setDisable(true);
+        editBus.setDisable(false);
+    }
+
+    @FXML
+    void editRoute(ActionEvent event) {
+        addRouteNumber.setValue(routesTable.getSelectionModel().getSelectedItem().getRouteNumber());
+        addRouteStartTime.appendText(routesTable.getSelectionModel().getSelectedItem().getRouteStartTime());
+        addRouteEndTime.appendText(routesTable.getSelectionModel().getSelectedItem().getRouteEndTime());
+        editRoute.setDisable(true);
+        saveEditedRoute.setDisable(false);
+    }
+
+    @FXML
+    void saveEditedRoute(ActionEvent event) {
+        routesTable.getSelectionModel().getSelectedItem().setRouteNumber(addRouteNumber.getValue());
+        routesTable.getSelectionModel().getSelectedItem().setRouteStartTime(addRouteStartTime.getText());
+        routesTable.getSelectionModel().getSelectedItem().setRouteEndTime(addRouteEndTime.getText());
+        addRouteNumber.getItems().clear();
+        addRouteStartTime.clear();
+        addRouteEndTime.clear();
+        routesTable.refresh();
+        editRoute.setDisable(false);
+        saveEditedRoute.setDisable(true);
+    }
+
+    @FXML
+    void editViolation(ActionEvent event) {
+        addViolatedRouteNumber.setValue(violationsTable.getSelectionModel().getSelectedItem().getViolatedRouteNumber());
+        addViolationDate.setValue(LocalDate.parse(violationsTable.getSelectionModel().getSelectedItem().getViolationDate()));
+        addViolatedDriver.setValue(violationsTable.getSelectionModel().getSelectedItem().getViolatedDriver());
+        addViolationDescription.appendText(violationsTable.getSelectionModel().getSelectedItem().getViolationDescription());
+        editViolation.setDisable(true);
+        saveEditedViolation.setDisable(false);
+    }
+
+    @FXML
+    void saveEditedViolation(ActionEvent event) {
+        violationsTable.getSelectionModel().getSelectedItem().setViolatedRouteNumber(addViolatedRouteNumber.getValue());
+        violationsTable.getSelectionModel().getSelectedItem().setViolationDate(addViolationDate.getValue().toString());
+        violationsTable.getSelectionModel().getSelectedItem().setViolatedDriver(addViolatedDriver.getValue());
+        violationsTable.getSelectionModel().getSelectedItem().setViolationDescription(addViolationDescription.getText());
+        addViolatedRouteNumber.getItems().clear();
+        addViolationDate.getEditor().clear();
+        addViolatedDriver.getItems().clear();
+        addViolationDescription.clear();
+        violationsTable.refresh();
+        editViolation.setDisable(false);
+        saveEditedViolation.setDisable(true);
+    }
 
     @FXML
     void closeFile(ActionEvent event) {
@@ -779,7 +899,14 @@ public class MainFormController extends Window {
         violationFilterField.setDisable(true);
         saveFile.setDisable(true);
         closeFile.setDisable(true);
+        editDriver.setDisable(true);
+        editBus.setDisable(true);
+        editRoute.setDisable(true);
+        editViolation.setDisable(true);
     }
 
+    private enum DriverClasses {
+        D, BD, CD, BCD
+    }
 }
 

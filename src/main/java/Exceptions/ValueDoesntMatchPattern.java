@@ -1,4 +1,4 @@
-package Kurs.Exceptions;
+package Exceptions;
 
 import javafx.scene.control.Alert;
 

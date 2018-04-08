@@ -17,4 +17,4 @@ meta-inf/
 *.html
 *.css
 *.js
-package-list
+!/src/main/resources/
